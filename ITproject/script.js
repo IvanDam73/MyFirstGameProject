@@ -202,7 +202,7 @@ nt--;
     theGameEnd();
     refreshAll();
   }else{
-    timer = setTimeout(showTimer, 200);
+    timer = setTimeout(showTimer, 1000);
   }
 }
 
