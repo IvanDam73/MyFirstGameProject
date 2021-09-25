@@ -1,0 +1,437 @@
+body {
+  font-family: 'Anton', sans-serif;
+  position: relative;
+  width: 96vw;
+  height: 95vh;
+  background-image: url('img/rabstol_net_abstract_07_1920x1080.jpg');
+}
+
+.gameInfo {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0 auto;
+  position: relative;
+  top: 20px;
+  width: 340px;
+  height: 40px;
+  border-radius: 5px;
+  background-color: rgb(3, 58, 160);
+  opacity: 0.7;
+  animation-duration: 2s;
+  box-shadow: 0 0 10px rgba(0,0,0,3);
+  z-index: 1;
+}
+
+@keyframes show_info{
+  0%{
+    position: relative;
+    top:-70px;
+  }
+  100%{
+    top:20px;
+  }
+}
+
+.timer {
+  display: block;
+  text-align: center;
+  width: 60px;
+  height: 30px;
+  opacity: 0.8;
+  background-color: white;
+  margin: 5px;
+  border-radius: 5px;
+}
+
+.timer p{
+  margin: 7px auto;
+}
+
+.curResult {
+  display: flex;
+  justify-content: space-around;
+  margin: 5px;
+  opacity: 0.8;
+  width: 180px;
+  height: 30px;
+  background-color: white;
+  border-radius: 5px;
+
+}
+
+.curResult p{
+  margin: 7px auto;
+}
+
+.clickVoice {
+  display: block;
+  margin: 0 auto;
+  width: 70px;
+  min-height: 30px;
+  opacity: 0.8;
+  background-color: white;
+  border-radius: 5px;
+  text-align: center;
+  cursor: pointer;
+}
+
+.clickVoice select {
+  width: 65px;
+  min-height: 30px;
+  border:none;
+  border-radius: 5px;
+}
+
+.clickVoice option{
+  background-color: black;
+  color: white;
+  min-height: 30px;
+}
+
+
+button {
+  display: block;
+  margin: 0 auto;
+  margin-top: 5px;
+  width: 50px;
+  height: 25px;
+  background-color: white;
+  opacity: 0.65;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+input{
+  display: block;
+  margin: 0 auto;
+  margin-top: 20px;
+  height: 25px;
+  width: 175px;
+  background-color: white;
+  opacity: 0.65;
+  color: black;
+  border: none;
+  border-radius: 5px;
+  text-align: center;
+}
+
+canvas {
+  position: absolute; 
+  top: 15%;
+  left: 29%;
+  border-radius: 5px;
+  cursor: url(img/Cursor.svg) 40 40, crosshair;      
+}
+
+tr{
+  text-align: center;
+  min-width: 90px;
+}
+
+td{
+  min-width: 90px;
+  text-align: center;
+  line-height: 40px;
+  color: rgb(0, 0, 0);
+}
+
+td.place{
+  width: 20px;
+}
+
+
+.records{
+  display: flex;
+  justify-content:center;
+  border: 2px solid rgb(252, 252, 63);
+  box-shadow: 0 0 20px rgb(238, 238, 78);
+  display: none;
+  position: absolute;
+  top: 10px;
+  left: 110px;
+  min-width: 240px;
+  min-height: 450px;
+  opacity: 0.8;
+  background-color: rgb(164, 186, 245);
+  z-index: 2;
+}
+
+.audioRadio {
+  position:absolute;
+  display: none;
+  right: 10px;
+  top: 10px;
+  width: 180px;
+  height: 20px;
+  opacity: 0.7;
+  z-index: 3;
+}
+
+.imgOptions img{
+  position: absolute;
+  top: 5px;
+  right: 10px;
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+}
+
+.settings{
+  display: none;
+  position: absolute;
+  padding: 3px;
+  border: black solid 2px;
+  top: 25px;
+  right: -30px;
+  animation-duration: 1s;
+}
+
+.mainText{
+  display: block;
+}
+
+
+@keyframes settings_up{
+  0%{
+    position:absolute;
+    right: 10px;
+    opacity: 0;
+  }
+  50%{
+    opacity: 0.5;
+  }
+  100%{
+    right: -30px;
+    opacity: 1;
+  }
+}
+
+.volume {
+  display: block;
+  margin-bottom: 5px;
+  cursor: pointer;
+  width: 20px;
+  height: 20px;
+}
+
+.mute{
+  cursor: pointer;
+  margin-bottom: 5px;
+  width: 20px;
+  height: 20px;
+  display: none;
+}
+.imgRadio{
+  display: block;
+  margin-bottom: 5px;
+  cursor: pointer;
+  width: 20px;
+  height: 20px;
+}
+.imgRecord img{
+  display: block;
+  margin-top: 9px;
+  cursor: pointer;
+  width: 20px;
+  height: 20px;
+}
+
+.startBG{
+  position: absolute;
+  left: -8px;
+  bottom: -25px;
+  width: 100vw;
+  height: 100vh;
+  background-color:rgb(0, 0, 0);
+  z-index: 1;
+  font-size: 70px;
+  text-align: center;
+  animation-duration: 1.25s;
+  animation-fill-mode: forwards;
+}
+
+@keyframes start_bg{
+  0%{
+    opacity: 1;
+  }
+  50%{
+    opacity: 0.5;
+  }
+  100%{
+    opacity: 0;
+    z-index: 0;
+    background: none;
+    display: none;
+  }
+}
+
+.clicker {
+  position: relative;
+  top: 250px;
+  animation-name: start_click;
+  animation-direction: alternate;
+  animation-iteration-count:infinite;
+  animation-duration: 0.5s;
+}
+
+.clicker:hover{
+  transition: 0.8s;
+  cursor: pointer;
+}
+
+@keyframes start_click{
+  0%{
+    color:chartreuse;
+  }
+  25%{
+    color: darkblue;
+  }
+  50%{
+    color: deeppink;
+  }
+  75%{
+    color: gold;
+  }
+  100%{
+    color: honeydew;
+  }
+}
+
+li{
+  list-style-type: none;
+}
+
+.state, .bestResult, ul{
+animation-name: main_text;
+animation-duration: 2s;
+
+}
+
+@keyframes main_text {
+  0%{
+    opacity: 0;
+  }
+  100%{
+    opacity: 1;
+  }
+}
+
+.title, .bestResult, .sayStart, .BestIdScore {
+  color: rgb(15, 218, 164);
+  line-height: 20px;
+  font-size: 16px;
+}
+
+.bestResult{
+  color: rgb(223, 212, 62);
+}
+
+.sayStart{
+  color: rgb(255, 255, 255);
+  opacity: 0.8;
+}
+
+
+.bestResult:hover{
+  font-size: 20px;
+  transition: 2s;
+  cursor: pointer;
+}
+
+
+@keyframes main_box {
+  0%{
+    opacity: 0;
+  }
+  100%{
+    opacity: 0.9;
+  }
+  
+}
+
+.textNotation {
+  text-align: center;
+  margin-top: 50px;
+}
+
+.gameBox{             
+  position: relative;
+  color: rgb(15, 218, 164);
+  display: block;
+  margin: 0  auto;
+  box-shadow: 0 0 10px rgba(0,0,0,3);
+  width: 512px;
+  height: 480px;
+  padding: 10px;
+  top: 50%;        
+  border: 1px;                 
+  transform: translate(0, -50%);
+  border-radius: 5px;
+  background-color: rgb(3, 58, 160);
+  opacity: 0.9;
+  animation-name: main_box;
+  animation-duration: 2s;
+  animation-iteration-count:1;
+}
+
+.sayStart {
+  display: flex;
+  margin-top: 30px;
+  justify-content: center;
+  text-align: center;
+}
+
+.sayStart:hover{
+  font-size: 25px;
+  transition: 1.2s;
+  cursor: pointer;
+}
+
+.gameOver {
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  position: absolute;
+  width: 250px;
+  height: 150px;
+  background-color: rgb(132, 134, 238);
+  border-radius: 5px;
+  opacity: 1;
+  top: 140px;
+  left: 140px;
+  animation-duration: 1s;
+}
+
+.gameOver span{
+  color: brown;
+}
+
+.gameOver .endBtn {
+  width: 130px;
+  background-color: brown;
+  color: white;
+}
+
+@keyframes show_me_end{
+  0%{
+    opacity: 0.1;
+    width: 10px;
+    height: 10px;
+  }
+  100%{
+    opacity: 1;
+    width: 250px;
+    height: 150px;
+  }
+}
+
+.gameOver .innerResult {
+  display:flex;
+  justify-content: space-between;
+}
+
+.gameOver .innerResult b{
+  margin-left: 5px;
+}

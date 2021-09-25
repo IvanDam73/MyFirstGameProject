@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <title>MyFirstGameProject</title>
+</head>
+<body>
+
+<audio controls class="audioRadio" src="http://galnet.ru:8000/hard"></audio>
+<canvas width="540px" height="540px" onclick="searchClick(event)"></canvas>
+
+<div class="gameInfo">
+    <div class="timer"></div>
+    <div class="curResult"></div>
+    <div class="clickVoice">
+        <select class="select">
+            <option value="1" class="mute123">Mute</option>
+            <option value="2" class="treck1">treck1</option>
+            <option value="3" class="treck2">treck2</option>
+            <option value="4" class="treck3">treck3</option>
+        </select>
+    </div>
+</div>
+
+<div class="startBG">
+    <span class="clicker">FAST CLICKER!</span>
+</div>
+
+
+<div class="gameBox">
+        <table >
+            <tbody class="records"></tbody>
+        </table>
+
+    <div class="imgOptions">
+        <img src="img/settings.svg" alt="">
+    </div>
+
+    <div class="mainText">
+        <span class="state">Подсчёт очков</span>
+        <ul>
+            <li>За промах: -10очков</li>
+            <li>За попадание: 20очков</li>
+        </ul>
+        <span>Конец игры</span>
+        <ul>
+            <li> 60 секунд</li>
+        </ul>
+
+        <span class="bestResult">Лучший результат:
+            <span class="BestIdScore"></span>
+        </span>
+    </div>
+
+    <span class="sayStart">НАЖМИТЕ ЧТОБЫ НАЧАТЬ!</span>
+
+    <input class="input1" type="text" maxlength="10" placeholder="Укажите имя или ник">
+   
+
+    <p class="textNotation">Правила просты: поражай шарики быстрее и точнее других игроков!
+        <br>
+        Тренируй свою реакцию! Если ты любишь шутеры, то тебе это будет полезным!
+    </p>
+
+    <div class="settings">
+        <div class="volume">
+            <img src="img/volume.svg" alt="">
+        </div>
+        <div class="mute">
+            <img  src="img/mute.svg" alt="">
+        </div>
+        <div class="imgRadio">
+            <img src="img/radio.svg" alt="">
+        </div>
+        <div class="imgRecord">
+            <img src="img/planing.svg" alt="">
+        </div>
+    </div>
+
+    <div class="gameOver">
+        <p><span>Игра окончена!</span></p>
+        <p class="innerResult"></p>
+        <button class="endBtn">Закрыть</button>
+    </div>
+</div>
+
+
+<script src="/script.js"></script>
+</body>
+</html>
+
