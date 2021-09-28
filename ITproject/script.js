@@ -182,6 +182,7 @@ function localRecords(){
     if(nextUserInfo == null) nextUserInfo = [];
     nextUserInfo.push(userDataInfo);
     localStorage.setItem("users", JSON.stringify(nextUserInfo));
+    sendRequest('POST', myurl, userDataInfo).then(data => console.log(data));
 }
 
                                                                             //обнуление отыгравшего и его результата
@@ -202,7 +203,7 @@ nt--;
     theGameEnd();
     refreshAll();
   }else{
-    timer = setTimeout(showTimer, 1000);
+    timer = setTimeout(showTimer, 100);
   }
 }
 
@@ -270,5 +271,34 @@ function takeARecords(){
         tr.innerHTML = `<td class"place">${i}</td><td>${nextParse[i].pName}</td><td>${nextParse[i].pScore}</td>`;
         if(nextParse.length > 9) nextParse.splice(10, 1);
     }
+    sendRequest('GET', myurl).then(data => console.log(data));
 }
-    
+
+
+let myurl = 'https://jsonplaceholder.typicode.com/users';
+
+function sendRequest(method, url, body = null){
+    return new Promise((resolve, reject) => {
+        let xhr = new XMLHttpRequest();
+        xhr.open(method, url);
+        
+        xhr.responseType = 'json';
+        xhr.setRequestHeader('Content-Type', 'application/json');
+        
+        xhr.onload = () => {
+            if(xhr.status >= 400){
+                reject('что-то пошло не так...')
+            }else{
+                resolve(xhr.response);
+            }
+            
+        }
+        
+        xhr.onerror = () => reject(xhr.response);
+        
+        xhr.send(JSON.stringify(body));
+        
+    })
+
+}
+
