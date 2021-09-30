@@ -283,7 +283,7 @@ function myAttempt1(){
         method: 'POST',
         body: formData,
     }).then((res) => res.json()).then((data) => {
-        console.log(data.result);
+        console.log(JSON.parse(data.result));
     });
 
 }
