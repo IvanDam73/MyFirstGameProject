@@ -283,19 +283,24 @@ function myAttempt1(){
         method: 'POST',
         body: formData,
     }).then((res) => res.json()).then((data) => {
-        console.log(JSON.parse(data.result));
+        console.log(data.result);
     });
+
 }
 
 function myAttempt2(){
+    let userDataInfo = {
+        pName: userName.value,
+        pScore: score
+    };
     let url = 'https://fe.it-academy.by/AjaxStringStorage2.php';
     let formData = new FormData();
     formData.append('f', 'INSERT');
     formData.append('n', userName.value);
-    formData.append('v', score);
+    formData.append('v', JSON.stringify(userDataInfo));
 
     fetch(url, {
         method: 'POST',
         body: formData,
-    }).then((res) => res.json()).then((data) => console.log(JSON.stringify(data)));
+    }).then((res) => res.json()).then((data) => console.log(data));
 }
