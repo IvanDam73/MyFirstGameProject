@@ -33,7 +33,8 @@ let timer;
 let nt = 60;
 let score=0;
 let intervalID;
-// let requestURL = 'https://fe.it-academy.by/AjaxStringStorage2.php';
+
+
 
 
 
@@ -96,11 +97,8 @@ function creatGame(){
         canvas.style.zIndex = '2';
         canvas.style.background = 'black';
         canvas.style.display = 'block';
-        canvas.style.width = '540px';
-        canvas.style.height = '540px';
+        canvas.width = window.innerWidth;
         canvas.style.boxShadow = '0 0 10px rgb(255, 255, 255)';
-        stupidImg.style.top = '-34px';
-        stupidImg.style.right = '-19px';
         iStart();
         showTimer();
         showUserResult();
@@ -111,7 +109,7 @@ sayStart.addEventListener('click', creatGame);
 
                                                                             //интервал
 function iStart(){
-    intervalID = setInterval(showRound, 900);
+    intervalID = setInterval(showRound, 980);
 }
 
 function iStop(){
@@ -181,8 +179,8 @@ function localRecords(){
     let nextUserInfo = JSON.parse(localStorage.getItem('users'));
     if(nextUserInfo == null) nextUserInfo = [];
     nextUserInfo.push(userDataInfo);
-    localStorage.setItem("users", JSON.stringify(nextUserInfo));
-    sendRequest('POST', myurl, userDataInfo).then(data => console.log(data));
+    localStorage.setItem("users", JSON.stringify(nextUserInfo)); 
+    myAttempt2();  
 }
 
                                                                             //обнуление отыгравшего и его результата
@@ -222,6 +220,7 @@ function theGameEnd(){
     stupidImg.style.top = '5px';
     stupidImg.style.right = '10px';
     innerResult.innerHTML = `<b>${userName.value}</b><b>${score}</b>`;
+    myAttempt1();
 }
 
 
@@ -271,34 +270,32 @@ function takeARecords(){
         tr.innerHTML = `<td class"place">${i}</td><td>${nextParse[i].pName}</td><td>${nextParse[i].pScore}</td>`;
         if(nextParse.length > 9) nextParse.splice(10, 1);
     }
-    sendRequest('GET', myurl).then(data => console.log(data));
 }
 
 
-let myurl = 'https://jsonplaceholder.typicode.com/users';
+function myAttempt1(){
+    let url = 'https://fe.it-academy.by/AjaxStringStorage2.php';
+    let formData = new FormData();
+    formData.append('f', 'READ');
+    formData.append('n', userName.value);
 
-function sendRequest(method, url, body = null){
-    return new Promise((resolve, reject) => {
-        let xhr = new XMLHttpRequest();
-        xhr.open(method, url);
-        
-        xhr.responseType = 'json';
-        xhr.setRequestHeader('Content-Type', 'application/json');
-        
-        xhr.onload = () => {
-            if(xhr.status >= 400){
-                reject('что-то пошло не так...')
-            }else{
-                resolve(xhr.response);
-            }
-            
-        }
-        
-        xhr.onerror = () => reject(xhr.response);
-        
-        xhr.send(JSON.stringify(body));
-        
-    })
-
+    fetch(url, {
+        method: 'POST',
+        body: formData,
+    }).then((res) => res.json()).then((data) => {
+        console.log(JSON.parse(data.result));
+    });
 }
 
+function myAttempt2(){
+    let url = 'https://fe.it-academy.by/AjaxStringStorage2.php';
+    let formData = new FormData();
+    formData.append('f', 'INSERT');
+    formData.append('n', userName.value);
+    formData.append('v', score);
+
+    fetch(url, {
+        method: 'POST',
+        body: formData,
+    }).then((res) => res.json()).then((data) => console.log(JSON.stringify(data)));
+}

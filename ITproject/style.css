@@ -1,8 +1,9 @@
-body {
+html, body {
   font-family: 'Anton', sans-serif;
-  position: relative;
-  width: 96vw;
-  height: 95vh;
+  overflow: hidden;
+  width: 100vw;
+  height: 100vh;
+  margin: 0;
   background-image: url('img/rabstol_net_abstract_07_1920x1080.jpg');
 }
 
@@ -119,8 +120,8 @@ input{
 
 canvas {
   position: absolute; 
-  top: 15%;
-  left: 29%;
+  left:0;
+  top: 10%;
   border-radius: 5px;
   cursor: url(img/Cursor.svg) 40 40, crosshair;      
 }
@@ -240,14 +241,16 @@ td.place{
 
 .startBG{
   position: absolute;
-  left: -8px;
-  bottom: -25px;
-  width: 100vw;
-  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
   background-color:rgb(0, 0, 0);
   z-index: 1;
   font-size: 70px;
-  text-align: center;
   animation-duration: 1.25s;
   animation-fill-mode: forwards;
 }
@@ -269,7 +272,6 @@ td.place{
 
 .clicker {
   position: relative;
-  top: 250px;
   animation-name: start_click;
   animation-direction: alternate;
   animation-iteration-count:infinite;
