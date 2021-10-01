@@ -232,7 +232,7 @@ endBtn.addEventListener('click', function(){
         records.removeChild(records.firstChild);
     }
     refreshAll();
-    takeARecords();
+    // takeARecords();
 });
 
 
@@ -259,18 +259,18 @@ function thirdVoice(){
 };
 
 
-function takeARecords(){
-    let nextParse = JSON.parse(localStorage.getItem('users'));
-    nextParse.sort(function(a,b) {return a.pScore == b.pScore ? 0 : a.pScore < b.pScore ? 1 : -1;});
-    let bestScore = document.querySelector('.BestIdScore');
-    bestScore.innerHTML = `${nextParse[0].pName}  ${nextParse[0].pScore}`;
-    for(let i = 0; i < nextParse.length; i++){
-        let tr = document.createElement('tr');
-        records.appendChild(tr);
-        tr.innerHTML = `<td class"place">${i}</td><td>${nextParse[i].pName}</td><td>${nextParse[i].pScore}</td>`;
-        if(nextParse.length > 9) nextParse.splice(10, 1);
-    }
-}
+// function takeARecords(){
+//     let nextParse = JSON.parse(localStorage.getItem('users'));
+//     nextParse.sort(function(a,b) {return a.pScore == b.pScore ? 0 : a.pScore < b.pScore ? 1 : -1;});
+//     let bestScore = document.querySelector('.BestIdScore');
+//     bestScore.innerHTML = `${nextParse[0].pName}  ${nextParse[0].pScore}`;
+//     for(let i = 0; i < nextParse.length; i++){
+//         let tr = document.createElement('tr');
+//         records.appendChild(tr);
+//         tr.innerHTML = `<td class"place">${i}</td><td>${nextParse[i].pName}</td><td>${nextParse[i].pScore}</td>`;
+//         if(nextParse.length > 9) nextParse.splice(10, 1);
+//     }
+// }
 
 
 function myAttempt1(){
@@ -283,9 +283,8 @@ function myAttempt1(){
         method: 'POST',
         body: formData,
     }).then((res) => res.json()).then((data) => {
-        console.log(JSON.parse(data.result));
+        console.log(data.result);
     });
-
 }
 
 function myAttempt2(){
@@ -303,4 +302,5 @@ function myAttempt2(){
         method: 'POST',
         body: formData,
     }).then((res) => res.json()).then((data) => console.log(data));
+
 }
