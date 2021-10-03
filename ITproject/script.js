@@ -231,7 +231,7 @@ endBtn.addEventListener('click', function(){
         records.removeChild(records.firstChild);
     }
     refreshAll();
-    createdme();
+    getAllResult()
 });
 
 
@@ -301,7 +301,16 @@ function getAllResult(){
         method: 'POST',
         body: formData,
     }).then((res) => res.json()).then((data) => {
-        console.log(data.result);
+        let luk = JSON.parse(data.result);
+        luk.sort(function(a,b) {return a.pScore == b.pScore ? 0 : a.pScore < b.pScore ? 1 : -1;});
+        let bestScore = document.querySelector('.BestIdScore');
+        bestScore.innerHTML = `${luk[0].pName}  ${luk[0].pScore}`;
+        for(let i = 0; i < luk.length; i++){
+            let tr = document.createElement('tr');
+            tr.innerHTML = `<td class"place">${i}</td><td>${luk[i].pName}</td><td>${luk[i].pScore}</td>`;
+            records.appendChild(tr);
+            if(luk.length > 9) luk.splice(10, 1);
+        }
     });
 }
 
@@ -336,27 +345,6 @@ async function saveResult(result) {
 window.onload = initDB();
 
 
-function createdme(){
-    let formData = new FormData();
-    formData.append('f', 'READ');
-    formData.append('n', baseName);
-
-    return fetch(url, {
-        method: 'POST',
-        body: formData,
-    }).then((res) => res.json()).then((data) => {
-        let luk = JSON.parse(data.result);
-        luk.sort(function(a,b) {return a.pScore == b.pScore ? 0 : a.pScore < b.pScore ? 1 : -1;});
-        let bestScore = document.querySelector('.BestIdScore');
-        bestScore.innerHTML = `${luk[0].pName}  ${luk[0].pScore}`;
-        for(let i = 0; i < luk.length; i++){
-            let tr = document.createElement('tr');
-            tr.innerHTML = `<td class"place">${i}</td><td>${luk[i].pName}</td><td>${luk[i].pScore}</td>`;
-            records.appendChild(tr);
-            if(luk.length > 9) luk.splice(10, 1);
-        }
-    });
-}
 
 
 
