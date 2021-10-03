@@ -180,7 +180,7 @@ function localRecords(){
     if(nextUserInfo == null) nextUserInfo = [];
     nextUserInfo.push(userDataInfo);
     localStorage.setItem("users", JSON.stringify(nextUserInfo)); 
-    myAttempt2();  
+    saveResult(nextUserInfo);
 }
 
                                                                             //обнуление отыгравшего и его результата
@@ -220,7 +220,6 @@ function theGameEnd(){
     stupidImg.style.top = '5px';
     stupidImg.style.right = '10px';
     innerResult.innerHTML = `<b>${userName.value}</b><b>${score}</b>`;
-    myAttempt1();
 }
 
 
@@ -232,7 +231,7 @@ endBtn.addEventListener('click', function(){
         records.removeChild(records.firstChild);
     }
     refreshAll();
-    // takeARecords();
+    createdme();
 });
 
 
@@ -273,13 +272,32 @@ function thirdVoice(){
 // }
 
 
-function myAttempt1(){
-    let url = 'https://fe.it-academy.by/AjaxStringStorage2.php';
+var baseName = 'Dyatlov_Game32';
+let url = 'https://fe.it-academy.by/AjaxStringStorage2.php';
+
+async function initDB(){
+    let allUserData = await getAllResult();
+    if(Array.isArray(allUserData)) return;
+
+    let formData = new FormData();
+    formData.append('f', 'INSERT');
+    formData.append('n', baseName);
+    formData.append('v', JSON.stringify([]));
+    
+    fetch(url, {
+        method: 'POST',
+        body: formData,
+    }).then((res) => res.json()).then((data) => {
+        console.log(data);
+    });
+}
+
+function getAllResult(){
     let formData = new FormData();
     formData.append('f', 'READ');
-    formData.append('n', userName.value);
+    formData.append('n', baseName);
 
-    fetch(url, {
+    return fetch(url, {
         method: 'POST',
         body: formData,
     }).then((res) => res.json()).then((data) => {
@@ -287,20 +305,66 @@ function myAttempt1(){
     });
 }
 
-function myAttempt2(){
-    let userDataInfo = {
-        pName: userName.value,
-        pScore: score
-    };
-    let url = 'https://fe.it-academy.by/AjaxStringStorage2.php';
+
+async function saveResult(result) {
+    let idPassword = Math.random();
+
     let formData = new FormData();
-    formData.append('f', 'INSERT');
-    formData.append('n', userName.value);
-    formData.append('v', JSON.stringify(userDataInfo));
+    formData.append('f', 'LOCKGET');
+    formData.append('n', baseName);
+    formData.append('p', idPassword);
 
     fetch(url, {
         method: 'POST',
         body: formData,
-    }).then((res) => res.json()).then((data) => console.log(data));
+    }).then((res) => res.json()).then((data) => {
+        console.log(data)
+        let formDataUpdate = new FormData();
+        formDataUpdate.append('f', 'UPDATE');
+        formDataUpdate.append('n', baseName);
+        formDataUpdate.append('p', idPassword);
+        formDataUpdate.append('v', JSON.stringify(result));
 
+        fetch(url, {
+            method: 'POST',
+            body: formDataUpdate,
+        }).then((res) => res.json()).then((data) => {
+            console.log(data);
+        });
+    });
 }
+window.onload = initDB();
+
+
+function createdme(){
+    let formData = new FormData();
+    formData.append('f', 'READ');
+    formData.append('n', baseName);
+
+    return fetch(url, {
+        method: 'POST',
+        body: formData,
+    }).then((res) => res.json()).then((data) => {
+        let luk = JSON.parse(data.result);
+        luk.sort(function(a,b) {return a.pScore == b.pScore ? 0 : a.pScore < b.pScore ? 1 : -1;});
+        let bestScore = document.querySelector('.BestIdScore');
+        bestScore.innerHTML = `${luk[0].pName}  ${luk[0].pScore}`;
+        for(let i = 0; i < luk.length; i++){
+            let tr = document.createElement('tr');
+            tr.innerHTML = `<td class"place">${i}</td><td>${luk[i].pName}</td><td>${luk[i].pScore}</td>`;
+            records.appendChild(tr);
+            if(luk.length > 9) luk.splice(10, 1);
+        }
+    });
+}
+
+
+
+
+
+
+
+
+
+
+
