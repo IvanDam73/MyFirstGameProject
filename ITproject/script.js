@@ -35,9 +35,6 @@ let score=0;
 let intervalID;
 
 
-
-
-
 let canvas = document.querySelector('canvas');  
 let ctx = canvas.getContext('2d');
 let sX = 0; 
@@ -169,20 +166,6 @@ function  showRecords(){
 };
 clickRecords.addEventListener('click', showRecords);
 
-
-                                                                           //добавление в localstorage
-function localRecords(){
-    let userDataInfo = {
-        pName: userName.value,
-        pScore: score
-    };
-    let nextUserInfo = JSON.parse(localStorage.getItem('users'));
-    if(nextUserInfo == null) nextUserInfo = [];
-    nextUserInfo.push(userDataInfo);
-    localStorage.setItem("users", JSON.stringify(nextUserInfo)); 
-    saveResult(nextUserInfo);
-}
-
                                                                             //обнуление отыгравшего и его результата
 function refreshAll(){
     nt = 60;
@@ -194,11 +177,12 @@ function refreshAll(){
 function showTimer(){
 timerTime.innerHTML = `<p><b>${nt}</b></p>`;
 nt--;
+let luk = {pName: userName.value, pScore: score};
   if(nt < 0){
     iStop();
     clearTimeout(timer);
-    localRecords();
     theGameEnd();
+    saveResult(luk);
     refreshAll();
   }else{
     timer = setTimeout(showTimer, 100);
@@ -230,8 +214,7 @@ endBtn.addEventListener('click', function(){
     while (records.firstChild) {
         records.removeChild(records.firstChild);
     }
-    refreshAll();
-    getAllResult()
+    getAllResult();
 });
 
 
@@ -258,21 +241,7 @@ function thirdVoice(){
 };
 
 
-// function takeARecords(){
-//     let nextParse = JSON.parse(localStorage.getItem('users'));
-//     nextParse.sort(function(a,b) {return a.pScore == b.pScore ? 0 : a.pScore < b.pScore ? 1 : -1;});
-//     let bestScore = document.querySelector('.BestIdScore');
-//     bestScore.innerHTML = `${nextParse[0].pName}  ${nextParse[0].pScore}`;
-//     for(let i = 0; i < nextParse.length; i++){
-//         let tr = document.createElement('tr');
-//         records.appendChild(tr);
-//         tr.innerHTML = `<td class"place">${i}</td><td>${nextParse[i].pName}</td><td>${nextParse[i].pScore}</td>`;
-//         if(nextParse.length > 9) nextParse.splice(10, 1);
-//     }
-// }
-
-
-var baseName = 'Dyatlov_Game32';
+const baseName = 'Dyatlov_Game12345';
 let url = 'https://fe.it-academy.by/AjaxStringStorage2.php';
 
 async function initDB(){
@@ -288,9 +257,11 @@ async function initDB(){
         method: 'POST',
         body: formData,
     }).then((res) => res.json()).then((data) => {
-        console.log(data);
+        console.log(data.result);
     });
 }
+
+
 
 function getAllResult(){
     let formData = new FormData();
@@ -301,15 +272,15 @@ function getAllResult(){
         method: 'POST',
         body: formData,
     }).then((res) => res.json()).then((data) => {
-        let luk = JSON.parse(data.result);
-        luk.sort(function(a,b) {return a.pScore == b.pScore ? 0 : a.pScore < b.pScore ? 1 : -1;});
+        let lak = JSON.parse(data.result);
+        lak.sort(function(a,b) {return a.pScore == b.pScore ? 0 : a.pScore < b.pScore ? 1 : -1;});
         let bestScore = document.querySelector('.BestIdScore');
-        bestScore.innerHTML = `${luk[0].pName}  ${luk[0].pScore}`;
-        for(let i = 0; i < luk.length; i++){
+        bestScore.innerHTML = `${lak[0].pName}  ${lak[0].pScore}`;
+        for(let i = 0; i < lak.length; i++){
             let tr = document.createElement('tr');
-            tr.innerHTML = `<td class"place">${i}</td><td>${luk[i].pName}</td><td>${luk[i].pScore}</td>`;
             records.appendChild(tr);
-            if(luk.length > 9) luk.splice(10, 1);
+            tr.innerHTML = `<td class"place">${i}</td><td>${lak[i].pName}</td><td>${lak[i].pScore}</td>`;
+            if(lak.length > 9) lak.splice(10, 1);
         }
     });
 }
@@ -327,12 +298,21 @@ async function saveResult(result) {
         method: 'POST',
         body: formData,
     }).then((res) => res.json()).then((data) => {
-        console.log(data)
+        let kek= JSON.parse(data.result);
+        console.log(kek);
+        if(!Array.isArray(kek)){
+            kek = [];
+            kek.push(result);
+        }
+
+        if(Array.isArray(kek)) kek.push(result);
+
         let formDataUpdate = new FormData();
         formDataUpdate.append('f', 'UPDATE');
         formDataUpdate.append('n', baseName);
         formDataUpdate.append('p', idPassword);
-        formDataUpdate.append('v', JSON.stringify(result));
+        formDataUpdate.append('v', JSON.stringify(kek));
+
 
         fetch(url, {
             method: 'POST',
@@ -342,17 +322,9 @@ async function saveResult(result) {
         });
     });
 }
+
+
 window.onload = initDB();
-
-
-
-
-
-
-
-
-
-
 
 
 
